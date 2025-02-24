@@ -2,11 +2,6 @@ import { ethers } from "ethers";
 
 import * as process from "process";
 
-export const MESSAGE_SETTER =
-  process.env.L2MSGSERVICE_L1L2_MESSAGE_SETTER || "0xd42e308fc964b71e18126df469c21b0d7bcb86cc";
-export const RATE_LIMIT_PERIOD = 86400;
-export const RATE_LIMIT_AMOUNT = 1000000000000000000000n;
-
 export const ROLLUP_INITIAL_STATE_ROOT_HASH = "0x04ea5a49e28808175bcc244a657be1d65efe24faa372d8fb07a01924d547a02b";
 export const ROLLUP_INITIAL_L2_BLOCK_NUMBER = 0;
 export const ROLLUP_GENESIS_TIMESTAMP = 0;
