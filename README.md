@@ -1,6 +1,6 @@
 # Smart Contracts
 
-> This is a one-to-one fork of the [linea-monorepo/contracts](https://github.com/Consensys/linea-monorepo/contracts). 
+> This is a one-to-one fork of the [linea-monorepo/contracts](https://github.com/Consensys/linea-monorepo/tree/main/contracts). 
 
 Contains Ethereum smart contract code for the Linea Rollup and Message Service.
 
