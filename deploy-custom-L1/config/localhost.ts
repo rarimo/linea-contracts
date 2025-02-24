@@ -1,0 +1,20 @@
+import { ethers } from "ethers";
+
+import * as process from "process";
+
+export const MESSAGE_SETTER =
+  process.env.L2MSGSERVICE_L1L2_MESSAGE_SETTER || "0xd42e308fc964b71e18126df469c21b0d7bcb86cc";
+export const RATE_LIMIT_PERIOD = 86400;
+export const RATE_LIMIT_AMOUNT = 1000000000000000000000n;
+
+export const ROLLUP_INITIAL_STATE_ROOT_HASH = ethers.ZeroHash;
+export const ROLLUP_INITIAL_L2_BLOCK_NUMBER = 0;
+export const ROLLUP_GENESIS_TIMESTAMP = 0;
+export const ROLLUP_RATE_LIMIT_PERIOD = 86400;
+export const ROLLUP_RATE_LIMIT_AMOUNT = 1000000000000000000000n;
+
+export const ROLLUP_SECURITY_COUNCIL = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+
+export const MULTI_CALL_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+
+export const ROLLUP_OPERATORS = ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"];

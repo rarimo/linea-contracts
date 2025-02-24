@@ -1,4 +1,5 @@
 import "@nomicfoundation/hardhat-toolbox";
+import "@solarity/hardhat-migrate";
 import "@nomicfoundation/hardhat-foundry";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-foundry";
@@ -75,6 +76,30 @@ const config: HardhatUserConfig = {
         },
       },
     ],
+    overrides: {
+      "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
+      "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
+    },
   },
   namedAccounts: {
     deployer: {
@@ -84,6 +109,12 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       hardfork: "cancun",
+    },
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      accounts: [process.env.CUSTOM_PRIVATE_KEY || EMPTY_HASH],
+      gasMultiplier: 1.2,
+      hardfork: "london",
     },
     mainnet: {
       accounts: [process.env.MAINNET_PRIVATE_KEY || EMPTY_HASH],
@@ -115,6 +146,11 @@ const config: HardhatUserConfig = {
       url: l2BlockchainNode ?? "",
       accounts: [process.env.L2_PRIVATE_KEY || EMPTY_HASH],
       allowUnlimitedContractSize: true,
+    },
+    "rarimo-l2": {
+      url: "https://rpc.l2.devnet.rarimo.com",
+      accounts: [process.env.CUSTOM_PRIVATE_KEY || EMPTY_HASH],
+      gasMultiplier: 1.2,
     },
   },
   gasReporter: {
@@ -165,6 +201,9 @@ const config: HardhatUserConfig = {
     // For compatibility with docs.linea.build
     pageExtension: ".mdx",
     templates: "docs/docgen-templates",
+  },
+  migrate: {
+    pathToMigrations: "deploy-l2-message-service-v1",
   },
 };
 

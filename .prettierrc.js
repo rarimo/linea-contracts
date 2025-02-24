@@ -1,6 +1,5 @@
 /** @type {import("prettier").Config} */
 module.exports = {
-  ...require("../.prettierrc.js"),
   plugins: ["prettier-plugin-solidity"],
   overrides: [
     {
@@ -14,5 +13,12 @@ module.exports = {
         useTabs: false,
       },
     },
+    {
+      files: "*.ts",
+      options: {
+        printWidth: 120,
+        tabWidth: 2
+      }
+    }
   ],
 };
