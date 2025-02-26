@@ -16,8 +16,12 @@ import {
   ProxyAdmin__factory,
   TransparentUpgradeableProxy__factory,
 } from "../typechain-types";
+import * as process from "node:process";
 
 export = async (deployer: Deployer) => {
+  process.exit(1);
+  // TODO: reinitializePauseTypesAndPermissions
+
   const l2MessageServiceImplementation = await deployer.deploy(L2MessageService__factory, []);
   const proxyAdmin = await deployer.deploy(ProxyAdmin__factory, []);
 

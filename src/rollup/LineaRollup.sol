@@ -147,25 +147,25 @@ contract LineaRollup is AccessControlUpgradeable, ZkEvmV2, L1MessageService, Per
    * @param _unpauseTypeRoles The list of unpause types to associate with roles.
    * @param _fallbackOperator The address of the fallback operator.
    */
-  function reinitializeLineaRollupV6(
-    RoleAddress[] calldata _roleAddresses,
-    PauseTypeRole[] calldata _pauseTypeRoles,
-    PauseTypeRole[] calldata _unpauseTypeRoles,
-    address _fallbackOperator
-  ) external reinitializer(6) {
-    __Permissions_init(_roleAddresses);
-    __PauseManager_init(_pauseTypeRoles, _unpauseTypeRoles);
-
-    if (_fallbackOperator == address(0)) {
-      revert ZeroAddressNotAllowed();
-    }
-
-    fallbackOperator = _fallbackOperator;
-    emit FallbackOperatorAddressSet(msg.sender, _fallbackOperator);
-
-    /// @dev using the constants requires string memory and more complex code.
-    emit LineaRollupVersionChanged(bytes8("5.0"), bytes8("6.0"));
-  }
+  //  function reinitializeLineaRollupV6(
+  //    RoleAddress[] calldata _roleAddresses,
+  //    PauseTypeRole[] calldata _pauseTypeRoles,
+  //    PauseTypeRole[] calldata _unpauseTypeRoles,
+  //    address _fallbackOperator
+  //  ) external reinitializer(6) {
+  //    __Permissions_init(_roleAddresses);
+  //    __PauseManager_init(_pauseTypeRoles, _unpauseTypeRoles);
+  //
+  //    if (_fallbackOperator == address(0)) {
+  //      revert ZeroAddressNotAllowed();
+  //    }
+  //
+  //    fallbackOperator = _fallbackOperator;
+  //    emit FallbackOperatorAddressSet(msg.sender, _fallbackOperator);
+  //
+  //    /// @dev using the constants requires string memory and more complex code.
+  //    emit LineaRollupVersionChanged(bytes8("5.0"), bytes8("6.0"));
+  //  }
 
   /**
    * @notice Revokes `role` from the calling account.
