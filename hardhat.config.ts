@@ -1,10 +1,5 @@
-import "@nomicfoundation/hardhat-chai-matchers";
-import "@nomicfoundation/hardhat-ethers";
-import "@typechain/hardhat";
-import "hardhat-gas-reporter";
-import "solidity-coverage";
+import "@nomicfoundation/hardhat-toolbox";
 import "@solarity/hardhat-migrate";
-import "@nomicfoundation/hardhat-verify";
 import "@nomicfoundation/hardhat-foundry";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-foundry";
@@ -229,7 +224,7 @@ const config: HardhatUserConfig = {
   },
   migrate: {
     paths: {
-      pathToMigrations: "deploy-l2-message-service-v1",
+      pathToMigrations: "deploy-token-bridge-l1",
     },
   },
 };

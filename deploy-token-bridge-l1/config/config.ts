@@ -5,8 +5,8 @@ export async function getConfig() {
     return await import("./localhost");
   }
 
-  if (hre.network.name == "rarimo-l2") {
-    return await import("./rarimo-l2");
+  if (hre.network.name == "sepolia") {
+    return await import("./sepolia");
   }
 
   throw new Error(`Config for network ${hre.network.name} is not specified`);
