@@ -110,6 +110,17 @@ const config: HardhatUserConfig = {
           evmVersion: "london",
         },
       },
+      "@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
     },
   },
   namedAccounts: {
@@ -224,7 +235,7 @@ const config: HardhatUserConfig = {
   },
   migrate: {
     paths: {
-      pathToMigrations: "deploy-token-bridge-l1",
+      pathToMigrations: "deploy-token-bridge-l2",
     },
   },
 };
