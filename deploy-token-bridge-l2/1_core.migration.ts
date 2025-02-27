@@ -26,7 +26,7 @@ export = async (deployer: Deployer) => {
 
   const chainId = (await provider.getNetwork()).chainId;
 
-  const securityCouncilAddress = config.L2_TOKEN_BRIDGE_SECURITY_COUNCIL;
+  const securityCouncilAddress = await signer.getAddress();
 
   const defaultRoleAddresses = generateRoleAssignments(TOKEN_BRIDGE_ROLES, securityCouncilAddress, []);
 
