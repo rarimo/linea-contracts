@@ -1,5 +1,10 @@
-import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomicfoundation/hardhat-ethers";
+import "@typechain/hardhat";
+import "hardhat-gas-reporter";
+import "solidity-coverage";
 import "@solarity/hardhat-migrate";
+import "@nomicfoundation/hardhat-verify";
 import "@nomicfoundation/hardhat-foundry";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-foundry";
@@ -159,8 +164,8 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true,
     },
     "rarimo-l2": {
-      url: "https://rpc.l2.devnet.rarimo.com",
-      accounts: [process.env.CUSTOM_PRIVATE_KEY || EMPTY_HASH],
+      url: "https://l2.rarimo.com",
+      accounts: [process.env.CUSTOM_P || EMPTY_HASH],
       gasMultiplier: 1.2,
     },
   },
@@ -173,11 +178,20 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY ?? "",
-      sepolia: process.env.ETHERSCAN_API_KEY ?? "",
+      sepolia: "332GTJPPBZ82TYIPQFMM4ZMPHKMVG4FG25",
       linea_sepolia: process.env.LINEASCAN_API_KEY ?? "",
       linea_mainnet: process.env.LINEASCAN_API_KEY ?? "",
+      "rarimo-l2": `abc`
     },
     customChains: [
+      {
+        network: "rarimo-l2",
+        chainId: 827779,
+        urls: {
+          apiURL: "https://evmscan.l2.rarimo.com/api",
+          browserURL: "https://newscan.l2.rarimo.com/",
+        },
+      },
       {
         network: "linea_sepolia",
         chainId: 59141,
@@ -214,7 +228,9 @@ const config: HardhatUserConfig = {
     templates: "docs/docgen-templates",
   },
   migrate: {
-    pathToMigrations: "deploy-l2-message-service-v1",
+    paths: {
+      pathToMigrations: "deploy-l2-message-service-v1",
+    },
   },
 };
 

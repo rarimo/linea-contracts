@@ -1,6 +1,14 @@
 import { Deployer, Reporter } from "@solarity/hardhat-migrate";
 
-import { MESSAGE_SETTER, RATE_LIMIT_AMOUNT, RATE_LIMIT_PERIOD, SECURITY_COUNCIL } from "./config/localhost";
+import { generateRoleAssignments } from "../common/helpers";
+
+import { getConfig } from "./config/config";
+
+import {
+  L2MessageService__factory,
+  ProxyAdmin__factory,
+  TransparentUpgradeableProxy__factory,
+} from "../typechain-types";
 
 import {
   L1_L2_MESSAGE_SETTER_ROLE,
@@ -9,18 +17,10 @@ import {
   L2_MESSAGE_SERVICE_UNPAUSE_TYPES_ROLES,
 } from "../common/constants";
 
-import { generateRoleAssignments } from "../common/helpers";
-
-import {
-  L2MessageService__factory,
-  ProxyAdmin__factory,
-  TransparentUpgradeableProxy__factory,
-} from "../typechain-types";
-import * as process from "node:process";
-
 export = async (deployer: Deployer) => {
-  process.exit(1);
-  // TODO: reinitializePauseTypesAndPermissions
+  const config = await getConfig();
+
+  const signer = await deployer.getSigner();
 
   const l2MessageServiceImplementation = await deployer.deploy(L2MessageService__factory, []);
   const proxyAdmin = await deployer.deploy(ProxyAdmin__factory, []);
@@ -29,24 +29,28 @@ export = async (deployer: Deployer) => {
 
   const pauseTypeRoles = L2_MESSAGE_SERVICE_PAUSE_TYPES_ROLES;
   const unpauseTypeRoles = L2_MESSAGE_SERVICE_UNPAUSE_TYPES_ROLES;
-  const roleAddresses = generateRoleAssignments(L2_MESSAGE_SERVICE_ROLES, SECURITY_COUNCIL, [
-    { role: L1_L2_MESSAGE_SETTER_ROLE, addresses: [MESSAGE_SETTER!] },
+
+  const roleAddresses = generateRoleAssignments(L2_MESSAGE_SERVICE_ROLES, await signer.getAddress(), [
+    { role: L1_L2_MESSAGE_SETTER_ROLE, addresses: [config.MESSAGE_SETTER!] },
   ]);
 
   const data = l2MessageServiceInterface.encodeFunctionData("initialize", [
-    RATE_LIMIT_PERIOD,
-    RATE_LIMIT_AMOUNT,
-    SECURITY_COUNCIL,
+    config.RATE_LIMIT_PERIOD,
+    config.RATE_LIMIT_AMOUNT,
+    config.SECURITY_COUNCIL,
     roleAddresses,
     pauseTypeRoles,
     unpauseTypeRoles,
   ]);
 
-  const l2MessageService = await deployer.deploy(TransparentUpgradeableProxy__factory, [
+  const l2MessageServiceProxy = await deployer.deploy(TransparentUpgradeableProxy__factory, [
     await l2MessageServiceImplementation.getAddress(),
     await proxyAdmin.getAddress(),
     data,
   ]);
 
-  await Reporter.reportContractsMD(["L2MessageService", `${await l2MessageService.getAddress()}`]);
+  const l2MessageService = await deployer.deployed(L2MessageService__factory, await l2MessageServiceProxy.getAddress());
+  await l2MessageService.grantRole(L1_L2_MESSAGE_SETTER_ROLE, await signer.getAddress());
+
+  await Reporter.reportContractsMD(["L2MessageService", `${await l2MessageServiceProxy.getAddress()}`]);
 };

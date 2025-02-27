@@ -48,11 +48,13 @@ export = async (deployer: Deployer) => {
     },
   ]);
 
-  const lineaRollup = await deployer.deploy(TransparentUpgradeableProxy__factory, [
+  const lineaRollupProxy = await deployer.deploy(TransparentUpgradeableProxy__factory, [
     await lineaRollupImplementation.getAddress(),
     await proxyAdmin.getAddress(),
     data,
   ]);
+  const lineaRollup = await deployer.deployed(LineaRollup__factory, await lineaRollupProxy.getAddress());
+  await lineaRollup.setVerifierAddress(await verifier.getAddress(), "0x01");
 
-  await Reporter.reportContractsMD(["Linea Rollup", `${await lineaRollup.getAddress()}`]);
+  await Reporter.reportContractsMD(["Linea Rollup", `${await lineaRollupProxy.getAddress()}`]);
 };
