@@ -1,4 +1,5 @@
 import "@nomicfoundation/hardhat-toolbox";
+import "@solarity/hardhat-migrate";
 import "@nomicfoundation/hardhat-foundry";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-foundry";
@@ -64,6 +65,17 @@ const config: HardhatUserConfig = {
         },
       },
       {
+        version: "0.8.26",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "cancun",
+        },
+      },
+      {
         version: "0.8.19",
         settings: {
           viaIR: useViaIR,
@@ -75,6 +87,41 @@ const config: HardhatUserConfig = {
         },
       },
     ],
+    overrides: {
+      "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
+      "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
+      "@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol": {
+        version: "0.8.19",
+        settings: {
+          viaIR: useViaIR,
+          optimizer: {
+            enabled: true,
+            runs: 10_000,
+          },
+          evmVersion: "london",
+        },
+      },
+    },
   },
   namedAccounts: {
     deployer: {
@@ -84,6 +131,12 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       hardfork: "cancun",
+    },
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      accounts: [process.env.CUSTOM_PRIVATE_KEY || EMPTY_HASH],
+      gasMultiplier: 1.2,
+      hardfork: "london",
     },
     mainnet: {
       accounts: [process.env.MAINNET_PRIVATE_KEY || EMPTY_HASH],
@@ -116,6 +169,11 @@ const config: HardhatUserConfig = {
       accounts: [process.env.L2_PRIVATE_KEY || EMPTY_HASH],
       allowUnlimitedContractSize: true,
     },
+    "rarimo-l2": {
+      url: "https://l2.rarimo.com",
+      accounts: [process.env.CUSTOM_P || EMPTY_HASH],
+      gasMultiplier: 1.2,
+    },
   },
   gasReporter: {
     enabled: !!process.env.REPORT_GAS,
@@ -126,11 +184,20 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY ?? "",
-      sepolia: process.env.ETHERSCAN_API_KEY ?? "",
+      sepolia: "332GTJPPBZ82TYIPQFMM4ZMPHKMVG4FG25",
       linea_sepolia: process.env.LINEASCAN_API_KEY ?? "",
       linea_mainnet: process.env.LINEASCAN_API_KEY ?? "",
+      "rarimo-l2": `abc`
     },
     customChains: [
+      {
+        network: "rarimo-l2",
+        chainId: 7368,
+        urls: {
+          apiURL: "https://evmscan.l2.rarimo.com/api",
+          browserURL: "https://newscan.l2.rarimo.com/",
+        },
+      },
       {
         network: "linea_sepolia",
         chainId: 59141,
@@ -165,6 +232,11 @@ const config: HardhatUserConfig = {
     // For compatibility with docs.linea.build
     pageExtension: ".mdx",
     templates: "docs/docgen-templates",
+  },
+  migrate: {
+    paths: {
+      pathToMigrations: "deploy-custom",
+    },
   },
 };
 

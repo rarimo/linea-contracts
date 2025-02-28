@@ -71,7 +71,8 @@ function main() {
 function removeExistingSmartContractSidebar(sidebarObject) {
   if (sidebarObject?.apiSidebar) {
     sidebarObject.apiSidebar = sidebarObject?.apiSidebar.filter(
-      (sidebarSection) => sidebarSection?.label !== SMART_CONTRACT_SIDEBAR_LABEL,
+      (sidebarSection) =>
+        sidebarSection?.label !== SMART_CONTRACT_SIDEBAR_LABEL,
     );
   }
 }
@@ -82,7 +83,12 @@ function removeExistingSmartContractSidebar(sidebarObject) {
  */
 function getSmartContractSidebar() {
   // Create and populate smart contract sidebar
-  const smartContractsPath = path.join(__dirname, "docs", "api", "linea-smart-contracts");
+  const smartContractsPath = path.join(
+    __dirname,
+    "docs",
+    "api",
+    "linea-smart-contracts",
+  );
 
   let smartContractSidebar = new FolderSidebar(
     SMART_CONTRACT_SIDEBAR_LABEL,
@@ -113,7 +119,10 @@ function populateFolderSidebar(folderSidebar, subdirectoryPath, fileExtension) {
 
     // Base case => *.mdx file => Add relative path to sidebar
     if (fileMetadata.isFile() && fileNode.endsWith(fileExtension)) {
-      const relativePath = path.relative(path.join(__dirname, "docs"), filePath.split(fileExtension)[0]);
+      const relativePath = path.relative(
+        path.join(__dirname, "docs"),
+        filePath.split(fileExtension)[0],
+      );
       folderSidebar?.items.push(relativePath);
     }
   }
@@ -143,7 +152,8 @@ function populateFolderSidebar(folderSidebar, subdirectoryPath, fileExtension) {
  */
 function createNewSidebarFile(sidebarObject) {
   // Create new sidebars.js file content
-  const sidebarFileLine1 = "/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */";
+  const sidebarFileLine1 =
+    "/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */";
   const sidebarFileLine2 = "const sidebars =";
   const sidebarFileLineFinal = "module.exports = sidebars;";
   const newSidebarFileContent = `${sidebarFileLine1}\n${sidebarFileLine2}\n${JSON.stringify(sidebarObject, null, 2)}\n\n${sidebarFileLineFinal}`;
