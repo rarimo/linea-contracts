@@ -1,6 +1,6 @@
 import { Deployer, Reporter } from "@solarity/hardhat-migrate";
 
-import { generateRoleAssignments } from "../common/helpers";
+import { generateRoleAssignments } from "../../common/helpers";
 
 import { getConfig } from "./config/config";
 
@@ -8,14 +8,14 @@ import {
   L2MessageService__factory,
   ProxyAdmin__factory,
   TransparentUpgradeableProxy__factory,
-} from "../typechain-types";
+} from "../../typechain-types";
 
 import {
   L1_L2_MESSAGE_SETTER_ROLE,
   L2_MESSAGE_SERVICE_PAUSE_TYPES_ROLES,
   L2_MESSAGE_SERVICE_ROLES,
   L2_MESSAGE_SERVICE_UNPAUSE_TYPES_ROLES,
-} from "../common/constants";
+} from "../../common/constants";
 
 export = async (deployer: Deployer) => {
   const config = await getConfig();

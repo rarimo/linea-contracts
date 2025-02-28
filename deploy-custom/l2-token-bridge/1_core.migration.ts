@@ -1,6 +1,6 @@
 import { Deployer, Reporter } from "@solarity/hardhat-migrate";
 
-import { generateRoleAssignments } from "../common/helpers";
+import { generateRoleAssignments } from "../../common/helpers";
 
 import { getConfig } from "./config/config";
 
@@ -10,13 +10,13 @@ import {
   TokenBridge__factory,
   TransparentUpgradeableProxy__factory,
   UpgradeableBeacon__factory,
-} from "../typechain-types";
+} from "../../typechain-types";
 
 import {
   TOKEN_BRIDGE_PAUSE_TYPES_ROLES,
   TOKEN_BRIDGE_ROLES,
   TOKEN_BRIDGE_UNPAUSE_TYPES_ROLES,
-} from "../common/constants";
+} from "../../common/constants";
 
 export = async (deployer: Deployer) => {
   const config = await getConfig();

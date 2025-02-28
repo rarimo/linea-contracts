@@ -192,7 +192,7 @@ const config: HardhatUserConfig = {
     customChains: [
       {
         network: "rarimo-l2",
-        chainId: 827779,
+        chainId: 7368,
         urls: {
           apiURL: "https://evmscan.l2.rarimo.com/api",
           browserURL: "https://newscan.l2.rarimo.com/",
@@ -235,7 +235,7 @@ const config: HardhatUserConfig = {
   },
   migrate: {
     paths: {
-      pathToMigrations: "deploy-token-bridge-l2",
+      pathToMigrations: "deploy-custom",
     },
   },
 };

@@ -2,20 +2,20 @@ import { Deployer, Reporter } from "@solarity/hardhat-migrate";
 
 import { getConfig } from "./config/config";
 
-import { generateRoleAssignments } from "../common/helpers";
+import { generateRoleAssignments } from "../../common/helpers";
 import {
   LINEA_ROLLUP_PAUSE_TYPES_ROLES,
   LINEA_ROLLUP_ROLES,
   LINEA_ROLLUP_UNPAUSE_TYPES_ROLES,
   OPERATOR_ROLE,
-} from "../common/constants";
+} from "../../common/constants";
 
 import {
   LineaRollup__factory,
   PlonkVerifier__factory,
   ProxyAdmin__factory,
   TransparentUpgradeableProxy__factory,
-} from "../typechain-types";
+} from "../../typechain-types";
 
 export = async (deployer: Deployer) => {
   const config = await getConfig();
